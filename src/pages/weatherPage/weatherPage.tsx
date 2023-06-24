@@ -1,23 +1,42 @@
-import React, { useEffect, useState } from 'react';
-import { getCurrentPositionWeather } from 'shared/helpers/getUserLocation';
+import React, { useEffect } from 'react';
+import { LanguageSwitcher } from 'feature/languageSwitcher';
+import { useTranslation } from 'react-i18next';
+import { SearchBar } from 'feature/searchCity/searchCity';
+import {
+    WeatherCard,
+    getWeatherList,
+    getCurrentForecast,
+    initCitiesForecast,
+} from 'widgets/weatherCard';
+import mock from './mock.json';
 
 import cls from './weather.module.scss';
-import { LanguageSwitcher } from 'feature/languageSwitcher/languageSwitcher';
-import { useTranslation } from 'react-i18next';
+
+import { useAppDispatch, useAppSelector } from 'app/providers/storeProvider';
 
 export const WeatherPage = () => {
-    const [weatherData, setWeatherData] = useState([]);
-    console.log(weatherData);
+    const weatherData = useAppSelector(getWeatherList);
+    const dispatch = useAppDispatch();
     const { t } = useTranslation();
+    const weatherList = localStorage.getItem('weatherList');
 
     useEffect(() => {
-        // getCurrentPositionWeather(setWeatherData);
+        if (weatherList) {
+            dispatch(initCitiesForecast(JSON.parse(weatherList)));
+        } else {
+            dispatch(getCurrentForecast());
+        }
     }, []);
 
     return (
         <div className={cls.wrapper}>
             <LanguageSwitcher />
-            <h1>{t('WEATHER PAGE')}</h1>
+            <SearchBar />
+            <div className={cls.weatherList}>
+                {weatherData.map((data, index) => (
+                    <WeatherCard key={index} data={data} />
+                ))}
+            </div>
         </div>
     );
 };

@@ -1,0 +1,72 @@
+.card {
+    min-width: 275px;
+    max-width: 350px;
+    margin-bottom: 12px;
+    position: relative;
+    background: #f7f2ec;
+}
+
+.coldCard {
+    background: #ebebef;
+}
+
+title14 {
+    font-size: 14px;
+}
+
+title10 {
+    font-size: 10px;
+}
+
+title12 {
+    font-size: 12px;
+}
+
+title20 {
+    font-size: 20px;
+}
+
+.nameAndDate {
+}
+
+.cardNameAndIcon, .bottom {
+    display: flex;
+    justify-content: space-between;
+}
+
+.cardNameAndIcon {
+    margin-bottom: 50px;
+}
+
+.icon {
+    position: absolute;
+    top: 0;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.right {
+    align-self: flex-end;
+    text-align: right;
+}
+
+.rightText {
+    color: #f96a09;
+}
+
+.tempWithPointSwitcher {
+    display: flex;
+    align-items: flex-end;
+}
+
+.pointSwitcher {
+    display: flex;
+    height: 40px;
+    align-items: flex-start;
+}
+
+.pointSwitcherDelimiter {
+    margin-top: 3px;
+}

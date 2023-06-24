@@ -1,0 +1,46 @@
+{
+  "coord": {
+    "lon": 39.7189,
+    "lat": 43.6358
+  },
+  "weather": [
+    {
+      "id": 803,
+      "main": "Clouds",
+      "description": "облачно с прояснениями",
+      "icon": "04n"
+    }
+  ],
+  "base": "stations",
+  "main": {
+    "temp": 20.79,
+    "feels_like": 21.2,
+    "temp_min": 20.79,
+    "temp_max": 21.11,
+    "pressure": 1018,
+    "humidity": 87,
+    "sea_level": 1018,
+    "grnd_level": 1000
+  },
+  "visibility": 10000,
+  "wind": {
+    "speed": 1.98,
+    "deg": 99,
+    "gust": 2.01
+  },
+  "clouds": {
+    "all": 80
+  },
+  "dt": 1687550428,
+  "sys": {
+    "type": 2,
+    "id": 48811,
+    "country": "RU",
+    "sunrise": 1687484401,
+    "sunset": 1687539980
+  },
+  "timezone": 10800,
+  "id": 805593,
+  "name": "Новая Заря",
+  "cod": 200
+}

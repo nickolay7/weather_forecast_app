@@ -1,3 +1,13 @@
 {
-  "WEATHER PAGE": "WEATHER PAGE"
+  "WEATHER PAGE": "WEATHER PAGE",
+  "Enter the name of the city": "Enter the name of the city...",
+  "Search": "Search",
+  "Feels like": "Feels like",
+  "Wind": "Wind",
+  "Pa": "Pa",
+  "Pressure": "Pressure",
+  "Humidity": "Humidity",
+  "m/s": "m/s",
+  "Clear": "Clear",
+  "Clouds": "Clouds"
 }

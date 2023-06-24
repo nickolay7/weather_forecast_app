@@ -7,7 +7,7 @@ export const getCurrentPositionWeather = async (
 ) => {
     navigator.geolocation.getCurrentPosition(async (position) => {
         const response = await axios.get(
-            `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&appid=${OPEN_WEATHER_API_KEY}`,
+            `https://api.openweathermap.org/data/2.5/weather?lat=${position.coords.latitude}&lon=${position.coords.longitude}&units=metric&lang=ru&&appid=${OPEN_WEATHER_API_KEY}`,
         );
         setData([response.data]);
     });

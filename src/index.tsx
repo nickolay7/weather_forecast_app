@@ -4,12 +4,14 @@ import App from 'app/App';
 import 'shared/config/i18n';
 
 import 'app/styles/index.scss';
+import { StoreProvider } from 'app/providers/storeProvider';
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement,
 );
+
 root.render(
-    <React.StrictMode>
+    <StoreProvider>
         <App />
-    </React.StrictMode>,
+    </StoreProvider>,
 );
