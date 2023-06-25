@@ -9,5 +9,6 @@
   "Humidity": "Humidity",
   "m/s": "m/s",
   "Clear": "Clear",
-  "Clouds": "Clouds"
+  "Clouds": "Clouds",
+  "Sorry, I can't found this city!": "Sorry, I can't found this city!"
 }

@@ -1,22 +1,29 @@
 import React, { useState } from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
-import { Forecast } from '../model/types/forcast';
+import { CityWeatherData } from '../model/types/forcast';
 import { Button as MyButton } from 'shared/ui/button';
+import { makeStyles } from '@material-ui/core/styles';
+import { classNames } from 'shared/helpers/classNames';
+import { TemperatureGraph } from './temperatureGraph';
+import { formatDate } from '../lib/formatDate';
 
 import cls from './weatherCard.module.scss';
-import { makeStyles } from '@material-ui/core/styles';
-import i18n from 'shared/config/i18n';
-import { classNames } from '../../../shared/helpers/classNames';
 
 interface WeatherCardProps {
-    data: Forecast;
+    data: CityWeatherData;
 }
 
 const useStyles = makeStyles({
     root: {
         minWidth: 275,
         marginBottom: 12,
+    },
+    bgWarm: {
+        background: '#f7f2ec',
+    },
+    bgCold: {
+        background: '#ebebef',
     },
     title10: {
         fontSize: 10,
@@ -35,8 +42,9 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
     const [celsius, setCelsius] = useState(true);
     const [celsiusFeelsLike, setCelsiusFeelsLike] = useState(true);
     const { t } = useTranslation();
-    const cardBg = data.main.temp < 0;
-    // const language = useSelector((state) => state.language);
+    const { city, list } = data;
+    const currentForecast = list[0];
+    const cardBg = currentForecast.main.temp < 0;
 
     const toggleTemperature = () => {
         setCelsius(!celsius);
@@ -44,47 +52,51 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
     };
 
     const temperature = celsius
-        ? data.main.temp.toFixed(1)
-        : ((data.main.temp * 9) / 5 + 32).toFixed(1);
+        ? currentForecast.main.temp.toFixed(1)
+        : ((currentForecast.main.temp * 9) / 5 + 32).toFixed(1);
 
     const temperatureFeelsLike = celsiusFeelsLike
-        ? data.main.feels_like.toFixed(1)
-        : ((data.main.feels_like * 9) / 5 + 32).toFixed(1);
+        ? currentForecast.main.feels_like.toFixed(1)
+        : ((currentForecast.main.feels_like * 9) / 5 + 32).toFixed(1);
 
     const unit = celsius ? '°C' : '°F';
 
-    const dtToDate = new Date();
-
-    const date = new Intl.DateTimeFormat(i18n.language, {
+    const dateFormat = formatDate(currentForecast.dt_txt, {
         weekday: 'short',
         day: '2-digit',
         month: 'long',
         hour: '2-digit',
         minute: '2-digit',
-    }).format(dtToDate);
+    });
 
     return (
-        <Card className={classNames(cls.card, { [cls.coldCard]: cardBg }, [])}>
+        <Card
+            className={classNames(
+                classes.bgWarm,
+                { [classes.bgCold]: cardBg },
+                [cls.card],
+            )}
+        >
             <CardContent>
                 <div className={cls.cardNameAndIcon}>
                     <div className={cls.nameAndDate}>
                         <Typography
                             className={classes.title12}
-                            color="textSecondary"
+                            color="textPrimary"
                             gutterBottom
                         >
-                            {`${data.name}, ${data.sys.country}`}
+                            {`${city.name}, ${city.country}`}
                         </Typography>
                         <Typography
                             className={classes.title14}
                             color="textPrimary"
                         >
-                            {date}
+                            {dateFormat}
                         </Typography>
                     </div>
                     <div className={cls.icon}>
                         <img
-                            src={`http://openweathermap.org/img/w/${data.weather[0].icon}.png`}
+                            src={`http://openweathermap.org/img/w/${currentForecast.weather[0].icon}.png`}
                             alt="weather icon"
                         />
                         <Typography
@@ -92,10 +104,11 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                             color="textSecondary"
                             gutterBottom
                         >
-                            {t(data.weather[0].main)}
+                            {t(currentForecast.weather[0].main)}
                         </Typography>
                     </div>
                 </div>
+                <TemperatureGraph weatherData={list} />
                 <div className={cls.bottom}>
                     <div className={cls.left}>
                         <div className={cls.tempWithPointSwitcher}>
@@ -114,7 +127,10 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                                 </MyButton>
                             </div>
                         </div>
-                        <Typography className={classes.title10}>
+                        <Typography
+                            className={classes.title10}
+                            color="textSecondary"
+                        >
                             {`${t('Feels like')}: ${
                                 Number(temperatureFeelsLike) > 0
                                     ? `+${temperatureFeelsLike}`
@@ -129,7 +145,7 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                         >
                             {t('Wind')}:{' '}
                             <span className={cls.rightText}>
-                                {data.wind.speed}
+                                {currentForecast.wind.speed}
                                 {t('m/s')}
                             </span>
                         </Typography>
@@ -139,7 +155,7 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                         >
                             {t('Humidity')}:{' '}
                             <span className={cls.rightText}>
-                                {data.main.humidity}%
+                                {currentForecast.main.humidity}%
                             </span>
                         </Typography>
                         <Typography
@@ -148,7 +164,7 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                         >
                             {t('Pressure')}:{' '}
                             <span className={cls.rightText}>
-                                {data.main.pressure}
+                                {currentForecast.main.pressure}
                                 {t('Pa')}
                             </span>
                         </Typography>

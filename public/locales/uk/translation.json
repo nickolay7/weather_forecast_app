@@ -9,5 +9,6 @@
   "Humidity": "Вологість",
   "m/s": "м/с",
   "Clear": "Ясно",
-  "Clouds": "Хмарно"
+  "Clouds": "Хмарно",
+  "Sorry, I can't found this city!": "Вибачте, я не можу знайти це місто!"
 }

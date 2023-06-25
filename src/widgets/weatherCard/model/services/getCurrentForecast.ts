@@ -1,8 +1,9 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { ThunkConfig } from 'app/providers/storeProvider';
-import { Forecast } from '../types/forcast';
+import { CityWeatherData } from '../types/forcast';
 import { addCityForecast } from '../slice/forecastSlice';
 import i18n from 'shared/config/i18n';
+import { filterDataByDate } from '../../lib/filterDataByDate';
 
 export const getCurrentForecast = createAsyncThunk<
     void,
@@ -17,24 +18,23 @@ export const getCurrentForecast = createAsyncThunk<
 
     try {
         navigator.geolocation.getCurrentPosition(async (position) => {
-            const { data }: { data: Forecast } = await api.get<Forecast>(
-                '/weather',
-                {
-                    params: {
-                        lat: position.coords.latitude,
-                        lon: position.coords.longitude,
-                        lang: i18n.language,
-                        appid: process.env.REACT_APP_OPEN_WEATHER_API_KEY,
-                        units: 'metric',
-                    },
+            const { data } = await api.get<CityWeatherData>('/forecast', {
+                params: {
+                    lat: position.coords.latitude,
+                    lon: position.coords.longitude,
+                    lang: i18n.language,
+                    appid: process.env.REACT_APP_OPEN_WEATHER_API_KEY,
+                    units: 'metric',
                 },
-            );
+            });
 
             if (!data) {
                 throw new Error('error');
             }
 
-            dispatch(addCityForecast(data));
+            const filteredData = { ...data, list: filterDataByDate(data.list) };
+
+            dispatch(addCityForecast(filteredData));
         });
     } catch (e) {
         return rejectWithValue('error');

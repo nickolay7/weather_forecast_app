@@ -120,7 +120,7 @@ export const SearchBar: FC = () => {
                 <Info
                     className={cls.alert}
                     status="error"
-                    message="Sorry, I can't found this city!"
+                    message={t("Sorry, I can't found this city!")}
                     fn={() => dispatch(resetError())}
                 />
             )}
