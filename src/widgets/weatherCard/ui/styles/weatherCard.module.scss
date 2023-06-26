@@ -26,7 +26,7 @@
 }
 
 .rightText {
-    color: #f96a09;
+    color: var(--warn-color);
 }
 
 .tempWithPointSwitcher {
@@ -34,13 +34,13 @@
     align-items: flex-end;
 }
 
-.pointSwitcher {
+.unitsSwitcher {
     display: flex;
     height: 40px;
     align-items: flex-start;
 }
 
-.pointSwitcherDelimiter {
+.unitsSwitcherDelimiter {
     margin-top: 3px;
 }
 
@@ -54,4 +54,8 @@
     height: 2px;
     border-radius: 50%;
     background: #e1bb88;
+}
+
+.pointActive {
+    color: var(--warn-color) !important;
 }

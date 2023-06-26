@@ -19,7 +19,7 @@ import {
     getWeatherState,
     resetError,
 } from 'widgets/weatherCard';
-import { Info } from 'shared/ui/button/ui/Info/info';
+import { Info } from 'shared/ui/Info';
 
 const GEO_NAME = process.env.REACT_APP_GEONAME;
 
@@ -42,6 +42,7 @@ export const SearchBar: FC = () => {
 
     const handleSearchButtonClick = () => {
         dispatch(getForecastByCity(searchValue));
+        setSearchValue('');
     };
 
     const handleSearchKeyPress: KeyboardEventHandler<HTMLInputElement> = (
@@ -98,7 +99,7 @@ export const SearchBar: FC = () => {
                 renderInput={(params) => (
                     <TextField
                         {...params}
-                        label={t('Search city')}
+                        label={t('Enter the name of the city...')}
                         onChange={handleSearchValueChange}
                         onKeyDown={handleSearchKeyPress}
                         size="small"

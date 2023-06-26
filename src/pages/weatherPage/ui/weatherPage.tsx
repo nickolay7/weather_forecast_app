@@ -1,23 +1,19 @@
 import React, { useEffect } from 'react';
 import { LanguageSwitcher } from 'feature/languageSwitcher';
-import { useTranslation } from 'react-i18next';
-import { SearchBar } from 'feature/searchCity/searchCity';
+import { SearchBar } from 'feature/searchCity/ui/searchCity';
 import {
-    WeatherCard,
     getWeatherList,
     getCurrentForecast,
     initCitiesForecast,
 } from 'widgets/weatherCard';
-import mock from './mock.json';
+import { useAppDispatch, useAppSelector } from 'app/providers/storeProvider';
+import { WeatherList } from './weatherList';
 
 import cls from './weather.module.scss';
-
-import { useAppDispatch, useAppSelector } from 'app/providers/storeProvider';
 
 export const WeatherPage = () => {
     const weatherData = useAppSelector(getWeatherList);
     const dispatch = useAppDispatch();
-    const { t } = useTranslation();
     const weatherList = localStorage.getItem('weatherList');
 
     useEffect(() => {
@@ -26,17 +22,13 @@ export const WeatherPage = () => {
         } else {
             dispatch(getCurrentForecast());
         }
-    }, []);
+    }, [dispatch]);
 
     return (
         <div className={cls.wrapper}>
             <LanguageSwitcher />
             <SearchBar />
-            <div className={cls.weatherList}>
-                {weatherData.map((data, index) => (
-                    <WeatherCard key={index} data={data} />
-                ))}
-            </div>
+            <WeatherList className={cls.weatherList} data={weatherData} />
         </div>
     );
 };

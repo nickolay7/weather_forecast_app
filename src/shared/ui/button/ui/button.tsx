@@ -1,9 +1,9 @@
 import { ButtonHTMLAttributes, memo } from 'react';
 
-import { classNames } from '../../../../helpers/classNames';
+import { classNames } from '../../../helpers/classNames';
 
 import cls from './button.module.scss';
-import { ElementTheme } from '../../../../types/ui';
+import { ElementTheme } from '../../../types/ui';
 
 export enum ButtonSize {
     S = 'small',

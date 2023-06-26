@@ -1,65 +1,25 @@
-import React, { useState } from 'react';
+import React, { FC } from 'react';
 import { Card, CardContent, Typography } from '@material-ui/core';
 import { useTranslation } from 'react-i18next';
 import { CityWeatherData } from '../model/types/forcast';
-import { Button as MyButton } from 'shared/ui/button';
-import { makeStyles } from '@material-ui/core/styles';
 import { classNames } from 'shared/helpers/classNames';
 import { TemperatureGraph } from './temperatureGraph';
 import { formatDate } from '../lib/formatDate';
+import { TemperatureBlock } from './temperatureBlock';
+import { useStyles } from './styles/muiStyles';
 
-import cls from './weatherCard.module.scss';
+import cls from './styles/weatherCard.module.scss';
 
 interface WeatherCardProps {
     data: CityWeatherData;
 }
 
-const useStyles = makeStyles({
-    root: {
-        minWidth: 275,
-        marginBottom: 12,
-    },
-    bgWarm: {
-        background: '#f7f2ec',
-    },
-    bgCold: {
-        background: '#ebebef',
-    },
-    title10: {
-        fontSize: 10,
-    },
-    title12: {
-        fontSize: 12,
-        margin: 0,
-    },
-    title14: {
-        fontSize: 14,
-    },
-});
-
-export const WeatherCard = ({ data }: WeatherCardProps) => {
+export const WeatherCard: FC<WeatherCardProps> = ({ data }) => {
     const classes = useStyles();
-    const [celsius, setCelsius] = useState(true);
-    const [celsiusFeelsLike, setCelsiusFeelsLike] = useState(true);
     const { t } = useTranslation();
     const { city, list } = data;
     const currentForecast = list[0];
     const cardBg = currentForecast.main.temp < 0;
-
-    const toggleTemperature = () => {
-        setCelsius(!celsius);
-        setCelsiusFeelsLike(!celsius);
-    };
-
-    const temperature = celsius
-        ? currentForecast.main.temp.toFixed(1)
-        : ((currentForecast.main.temp * 9) / 5 + 32).toFixed(1);
-
-    const temperatureFeelsLike = celsiusFeelsLike
-        ? currentForecast.main.feels_like.toFixed(1)
-        : ((currentForecast.main.feels_like * 9) / 5 + 32).toFixed(1);
-
-    const unit = celsius ? '°C' : '°F';
 
     const dateFormat = formatDate(currentForecast.dt_txt, {
         weekday: 'short',
@@ -110,34 +70,10 @@ export const WeatherCard = ({ data }: WeatherCardProps) => {
                 </div>
                 <TemperatureGraph weatherData={list} />
                 <div className={cls.bottom}>
-                    <div className={cls.left}>
-                        <div className={cls.tempWithPointSwitcher}>
-                            <Typography variant="h5" component="h2">
-                                {Number(temperature) > 0
-                                    ? `+${temperature}`
-                                    : `-${temperature}`}
-                            </Typography>
-                            <div className={cls.pointSwitcher}>
-                                <MyButton onClick={toggleTemperature}>
-                                    °C
-                                </MyButton>
-                                <p className={cls.pointSwitcherDelimiter}>|</p>
-                                <MyButton onClick={toggleTemperature}>
-                                    °F
-                                </MyButton>
-                            </div>
-                        </div>
-                        <Typography
-                            className={classes.title10}
-                            color="textSecondary"
-                        >
-                            {`${t('Feels like')}: ${
-                                Number(temperatureFeelsLike) > 0
-                                    ? `+${temperatureFeelsLike}`
-                                    : `-${temperatureFeelsLike}`
-                            } ${unit}`}
-                        </Typography>
-                    </div>
+                    <TemperatureBlock
+                        temperature={currentForecast.main.temp}
+                        temperatureFeelsLike={currentForecast.main.feels_like}
+                    />
                     <div className={cls.right}>
                         <Typography
                             className={classes.title10}

@@ -1,1 +1,1 @@
-export * from './weatherPage';
+export * from './ui/weatherPage';

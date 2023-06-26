@@ -3,7 +3,7 @@ import { XAxis, YAxis, Tooltip, AreaChart, Area } from 'recharts';
 import { ForecastsList } from '../model/types/forcast';
 import { formatDate } from '../lib/formatDate';
 
-import cls from './weatherCard.module.scss';
+import cls from './styles/weatherCard.module.scss';
 
 interface TemperatureGraphProps {
     weatherData: ForecastsList;
@@ -17,7 +17,7 @@ export const TemperatureGraph = ({ weatherData }: TemperatureGraphProps) => {
                 day: '2-digit',
                 month: '2-digit',
             }),
-            temperature: item.main.temp.toFixed(0),
+            temperature: Number(item.main.temp.toFixed(0)),
         };
     });
 
@@ -49,6 +49,7 @@ export const TemperatureGraph = ({ weatherData }: TemperatureGraphProps) => {
             <YAxis axisLine={false} tickLine={false} hide={true} />
             <Tooltip />
             <Area
+                key={data.length}
                 className=""
                 type="monotone"
                 dataKey="temperature"

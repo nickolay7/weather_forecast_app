@@ -1,1 +1,1 @@
-export * from './searchBar.module.scss';
+export * from './ui/searchBar.module.scss';
